@@ -1,6 +1,7 @@
 import { useState } from "react";
-import Layout from "./Layout";
-import Settings from "./Settings";
+import Layout from "./pages/Layout";
+import Settings from "./pages/Settings";
+import Slider from "./pages/Slider";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -10,7 +11,7 @@ function App() {
       <Layout
         sidebar={<Settings />}
         main={<div>main</div>}
-        footer={<div>footer</div>}
+        slider={<Slider />}
       ></Layout>
     </>
   );

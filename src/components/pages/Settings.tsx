@@ -1,9 +1,8 @@
 import { Repeat, Shuffle } from "lucide-react";
 import { useState } from "react";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import MultipleSelector, { Option } from "./ui/multiselect";
-import { Toggle } from "./ui/toggle";
+import { Input } from "../ui/input";
+import MultipleSelector, { Option } from "../ui/multiselect";
+import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 
 interface SettingRowProps {
   heading: string;
@@ -21,6 +20,11 @@ const SettingRow: React.FC<SettingRowProps> = ({ heading, content }) => {
 
 const Settings = () => {
   const [interval, setInterval] = useState(5);
+  const [backgroundColor, setBackgroundColor] = useState("#000000");
+  const [playSettings, setPlaySettings] = useState({
+    repeat: false,
+    shuffle: false,
+  });
   const [transitions, setTransitions] = useState<Option[]>([]);
 
   const TRANSITION_OPTIONS: Option[] = [
@@ -55,6 +59,7 @@ const Settings = () => {
           content={
             <div className="flex">
               <MultipleSelector
+                className="truncate"
                 value={transitions}
                 onChange={setTransitions}
                 defaultOptions={TRANSITION_OPTIONS}
@@ -73,13 +78,39 @@ const Settings = () => {
           content={
             <div className="flex flex-col gap-2">
               <div className="flex gap-2 items-center">
-                <Toggle>
-                  <Shuffle /> Shuffle
-                </Toggle>
-                <Toggle>
-                  <Repeat /> Dauerschleife
-                </Toggle>
+                <ToggleGroup type="multiple" className="border w-full ">
+                  <ToggleGroupItem
+                    value="shuffle"
+                    className="align-middle"
+                  >
+                    <Shuffle />
+                    <span className="text-xs hidden lg:block">
+                      {" "}
+                      Zuf&auml;llig
+                    </span>
+                  </ToggleGroupItem>
+                  <ToggleGroupItem
+                    value="repeat"
+                  >
+                    <Repeat />{" "}
+                    <span className="text-xs hidden lg:block">Wiederholen</span>
+                  </ToggleGroupItem>
+                </ToggleGroup>
               </div>
+            </div>
+          }
+        />
+        <SettingRow
+          heading="Darstellung"
+          content={
+            <div className="flex gap-2 items-center justify-between">
+              <Input
+                className="hover:cursor-pointer"
+                type="color"
+                value={backgroundColor}
+                onChange={(e) => setBackgroundColor(e.target.value)}
+              />
+              <span className="hidden lg:block">Hintergrundfarbe</span>
             </div>
           }
         />
