@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, dialog, ipcMain } from 'electron'
 import { createRequire } from 'node:module'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -34,6 +34,7 @@ function createWindow() {
     icon: path.join(process.env.VITE_PUBLIC, 'electron-vite.svg'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
+      webSecurity: false // TODO check if this is a security issue
     },
   })
 
@@ -70,4 +71,23 @@ app.on('activate', () => {
   }
 })
 
-app.whenReady().then(createWindow)
+async function handleFileOpen() {
+  const { canceled, filePaths } = await dialog.showOpenDialog({
+    properties: ['openFile', 'multiSelections'],
+    filters: [
+      { name: 'Image Files', extensions: ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp'] },
+    ],
+  })
+  if (!canceled) {
+    return filePaths
+  }
+}
+
+
+
+app.whenReady().then(() => {
+  ipcMain.handle('dialog:openFile', handleFileOpen)
+  createWindow();
+
+})
+

@@ -1,7 +1,7 @@
 import { useState } from "react";
+import ImagePreviewer from "./pages/ImagePreviewer";
 import Layout from "./pages/Layout";
 import Settings from "./pages/Settings";
-import Slider from "./pages/Slider";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -11,7 +11,7 @@ function App() {
       <Layout
         sidebar={<Settings />}
         main={<div>main</div>}
-        slider={<Slider />}
+        bottomBar={<ImagePreviewer />}
       ></Layout>
     </>
   );

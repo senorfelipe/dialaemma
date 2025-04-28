@@ -3,10 +3,10 @@ import React from "react";
 interface LayoutProps {
   sidebar: React.ReactNode;
   main: React.ReactNode;
-  slider: React.ReactNode;
+  bottomBar: React.ReactNode;
 }
 
-const Layout: React.FC<LayoutProps> = ({ sidebar, main, slider }) => {
+const Layout: React.FC<LayoutProps> = ({ sidebar, main, bottomBar }) => {
   return (
     <div className="h-screen flex flex-col">
       {/* Top section: Sidebar + Main */}
@@ -19,8 +19,8 @@ const Layout: React.FC<LayoutProps> = ({ sidebar, main, slider }) => {
       </div>
 
       {/* Bottom bar (30% of total height) */}
-      <div className="h-[30%] bg-gray-600 text-white p-4">
-        {slider}
+      <div className="bg-gray-600 text-white p-4">
+        {bottomBar}
       </div>
     </div>
   );
