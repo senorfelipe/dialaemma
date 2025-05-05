@@ -1,10 +1,12 @@
 import { Button } from "components/ui/button";
 import { Ban, Download } from "lucide-react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import ImageSlider from "./ImageSlider";
+import { DisplayImageContext } from "../Contexts";
 
 const ImagePreviewer: React.FC = () => {
   const [imagePaths, setImagePaths] = useState<string[]>([]);
+  const { setDisplayImage } = useContext(DisplayImageContext);
 
   return (
     <div className="flex flex-col h-full gap-2">
@@ -28,6 +30,7 @@ const ImagePreviewer: React.FC = () => {
             className="hidden md:block"
             onClick={() => {
               setImagePaths([]);
+              setDisplayImage("");
             }}
           >
             Alle Entfernen

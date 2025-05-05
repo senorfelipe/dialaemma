@@ -1,6 +1,8 @@
 import { ChevronLeftIcon, ChevronRightIcon, ImageOff } from "lucide-react";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Button } from "../ui/button";
+import React from "react";
+import { DisplayImageContext } from "../Contexts";
 
 interface ImageSliderProps {
   imagePaths: string[];
@@ -11,11 +13,17 @@ const CENTER_INDEX = Math.floor(WINDOW_SIZE / 2);
 
 const ImageSlider: React.FC<ImageSliderProps> = ({ imagePaths }) => {
   const [currIndex, setCurrIndex] = useState(0);
+  const { setDisplayImage } = useContext(DisplayImageContext);
 
   const visibleImages = Array.from({ length: WINDOW_SIZE }, (_, index) => {
     const imgIndex = currIndex + index;
     return imagePaths[imgIndex] || "";
   });
+
+  useEffect(() => {
+    if (!visibleImages[CENTER_INDEX]) return;
+    setDisplayImage(visibleImages[CENTER_INDEX]);
+  }, [visibleImages, setDisplayImage]);
 
   console.log({ imagePaths });
   console.log({ visibleImages });

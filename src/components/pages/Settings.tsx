@@ -1,8 +1,9 @@
 import { Repeat, Shuffle } from "lucide-react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Input } from "../ui/input";
 import MultipleSelector, { Option } from "../ui/multiselect";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
+import { DisplayImageContext } from "../Contexts";
 
 interface SettingRowProps {
   heading: string;
@@ -20,12 +21,13 @@ const SettingRow: React.FC<SettingRowProps> = ({ heading, content }) => {
 
 const Settings = () => {
   const [interval, setInterval] = useState(5);
-  const [backgroundColor, setBackgroundColor] = useState("#000000");
   const [playSettings, setPlaySettings] = useState({
     repeat: false,
     shuffle: false,
   });
   const [transitions, setTransitions] = useState<Option[]>([]);
+  const { backgroundColor, setBackgroundColor } =
+    useContext(DisplayImageContext);
 
   const TRANSITION_OPTIONS: Option[] = [
     { label: "Fade", value: "fade" },
@@ -33,6 +35,8 @@ const Settings = () => {
     { label: "Zoom", value: "zoom" },
     { label: "Slide", value: "slide" },
   ];
+
+  console.log(backgroundColor);
 
   return (
     <>
@@ -79,21 +83,16 @@ const Settings = () => {
             <div className="flex flex-col gap-2">
               <div className="flex gap-2 items-center">
                 <ToggleGroup type="multiple" className="border w-full ">
-                  <ToggleGroupItem
-                    value="shuffle"
-                    className="align-middle"
-                  >
+                  <ToggleGroupItem value="shuffle" className="align-middle">
                     <Shuffle />
-                    <span className="text-xs hidden lg:block">
+                    <span className="text-xs hidden xl:block">
                       {" "}
                       Zuf&auml;llig
                     </span>
                   </ToggleGroupItem>
-                  <ToggleGroupItem
-                    value="repeat"
-                  >
+                  <ToggleGroupItem value="repeat">
                     <Repeat />{" "}
-                    <span className="text-xs hidden lg:block">Wiederholen</span>
+                    <span className="text-xs hidden xl:block">Wiederholen</span>
                   </ToggleGroupItem>
                 </ToggleGroup>
               </div>
